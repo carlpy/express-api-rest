@@ -15,9 +15,12 @@ app.use(express.urlencoded({ extended: true }));
 const { port } = envs;
 
 // routes
-const clientRoutes = require('./routes/clients.routes');
+const clientRoutes = require('./routes/clients/clients.routes');
+const userRoutes = require('./routes/users/users.routes');
 
-app.use('/clients', clientRoutes);
+app.use('/api/clients', clientRoutes);
+app.use('/api/users', userRoutes);
+
 app.use(errors);
 
 app.listen(port, () => {
