@@ -6,6 +6,8 @@ config();
 const envs = {
   port: get('PORT').required().asPortNumber(),
 
+  jwt: get('JWT_SECRET').default("secretNote").asString(),
+
   db_host: get('MYSQL_HOST').required().asString(),
   db_name: get('MYSQL_DB_NAME').required().asString(),
   db_user: get('MYSQL_USER').required().asString(),

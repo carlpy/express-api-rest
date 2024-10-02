@@ -1,16 +1,15 @@
 const express = require('express');
 const router = express.Router();
 
+const security = require('./security')
 const responses = require('../../network/responses');
 const controller = require('./index');
-
 
 router.get('/', getClients);
 router.get('/:id', getClient);
 
-router.delete('/del/:id', deleteClient);
-
-router.post('/add', addClient);
+router.post('/add',  addClient);
+router.delete('/del/:id', security(), deleteClient);
 
 async function getClients(req, res, next) {
   try {
@@ -40,7 +39,6 @@ async function addClient(req, res, next) {
     } else {
       msg = 'Item succesfully updated';
     }
-
     responses.success(req, res, 201, msg);
   } catch (e) {
     console.log(e);
@@ -51,7 +49,7 @@ async function addClient(req, res, next) {
 async function deleteClient(req, res, next) {
   try {
     const client = await controller.deleteIt(req.params.id);
-    responses.success(req, res, 201, client);
+    responses.success(req, res, 201, 'Item deleted succesfully');
   } catch (e) {
     console.log(e);
     next(e);

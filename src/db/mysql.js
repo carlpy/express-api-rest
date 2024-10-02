@@ -61,7 +61,19 @@ function deleteOne(table, data) {
 
 function addEntity(table, data) {
   return new Promise((resolve, reject) => {
-    connection.query('INSERT INTO ?? SET ? ON DUPLICATE KEY UPDATE ?', [table, data, data], (err, res) => {
+    connection.query(
+      'INSERT INTO ?? SET ? ON DUPLICATE KEY UPDATE ?',
+      [table, data, data],
+      (err, res) => {
+        return err ? reject(err) : resolve(res);
+      }
+    );
+  });
+}
+
+function query(table, query) {
+  return new Promise((resolve, reject) => {
+    connection.query('SELECT * FROM ?? WHERE ?', [table, query], (err, res) => {
       return err ? reject(err) : resolve(res);
     });
   });
@@ -73,4 +85,6 @@ module.exports = {
 
   deleteOne,
   addEntity,
+
+  query
 };
